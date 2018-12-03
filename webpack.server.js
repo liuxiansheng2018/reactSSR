@@ -10,7 +10,20 @@ const serverConfig = {
         filename: 'bundle.js',
         path: path.resolve(__dirname, "build")
     },
-    externals: [nodeExternals()]
+    externals: [nodeExternals()],
+    module: {
+        rules:[{
+            test: /\.css?$/,
+            use: ['isomorphic-style-loader', {
+                loader: 'css-loader',
+                options: {
+                    importLoaders: 1,
+                    module: true,
+                    localIdentName: '[name]_[local]_[hash: base64:5]'
+                }
+            }]
+        }]
+    }   
 }
 
 module.exports = merge(serverConfig, config)
